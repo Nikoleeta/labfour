@@ -16,5 +16,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./papka  # Укажите путь к вашей папке с файлами для публикации
+          publish_dir: ./papka  
           keep_files: true
