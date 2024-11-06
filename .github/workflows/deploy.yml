@@ -12,9 +12,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Укажите нужную версию Node.js
+
+      - name: Prepare publish directory
+        run: |
+          mkdir -p ./ghpages
+          cp -r ./en ./ghpages/en
+          cp -r ./ru ./ghpages/ru
+          cp ./index.html ./ghpages/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./papka  
+          publish_dir: ./ghpages
           keep_files: true
