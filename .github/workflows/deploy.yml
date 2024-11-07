@@ -15,11 +15,14 @@ jobs:
       - name: Prepare publish directory
         run: |
           TAG_NAME=$(echo "${{ github.event.release.tag_name }}" | tr '[:upper:]' '[:lower:]')
-          mkdir -p ./ghpages/releases/en/$TAG_NAME
-          mkdir -p ./ghpages/releases/ru/$TAG_NAME
-          cp -r ./en/* ./ghpages/releases/en/$TAG_NAME/
-          cp -r ./ru/* ./ghpages/releases/ru/$TAG_NAME/
-          cp ./index.html ./ghpages/releases/$TAG_NAME/
+          
+          # Создаем директорию по версии
+          mkdir -p ./ghpages/$TAG_NAME
+          
+          # Копируем файлы сайта
+          cp -r ./en/* ./ghpages/$TAG_NAME/
+          cp -r ./ru/* ./ghpages/$TAG_NAME/
+          cp ./index.html ./ghpages/$TAG_NAME/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
