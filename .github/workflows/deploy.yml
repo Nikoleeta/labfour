@@ -21,8 +21,8 @@ jobs:
         run: |
           TAG_NAME=$(echo "${{ github.event.release.tag_name }}" | tr '[:upper:]' '[:lower:]')
           mkdir -p ./ghpages/releases/$TAG_NAME
-          cp -r ./en ./ghpages/releases/$TAG_NAME/en
-          cp -r ./ru ./ghpages/releases/$TAG_NAME/ru
+          cp -r ./en ./ghpages/releases/en/$TAG_NAME
+          cp -r ./ru ./ghpages/releases/ru/$TAG_NAME
           cp ./index.html ./ghpages/releases/$TAG_NAME/
 
       - name: Deploy to GitHub Pages
