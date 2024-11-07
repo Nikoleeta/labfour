@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to GitHub Pages
 
 on:
   release:
@@ -15,14 +15,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Укажите нужную версию Node.js
+          node-version: '14'  
 
       - name: Prepare publish directory
         run: |
-          mkdir -p ./ghpages
-          cp -r ./en ./ghpages/en
-          cp -r ./ru ./ghpages/ru
-          cp ./index.html ./ghpages/
+          TAG_NAME=$(echo "${{ github.event.release.tag_name }}" | tr '[:upper:]' '[:lower:]')
+          mkdir -p ./ghpages/releases/$TAG_NAME
+          cp -r ./en ./ghpages/releases/$TAG_NAME/en
+          cp -r ./ru ./ghpages/releases/$TAG_NAME/ru
+          cp ./index.html ./ghpages/releases/$TAG_NAME/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
