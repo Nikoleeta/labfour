@@ -12,17 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'  
-
       - name: Prepare publish directory
         run: |
           TAG_NAME=$(echo "${{ github.event.release.tag_name }}" | tr '[:upper:]' '[:lower:]')
-          mkdir -p ./ghpages/releases/$TAG_NAME
-          cp -r ./en ./ghpages/releases/en/$TAG_NAME
-          cp -r ./ru ./ghpages/releases/ru/$TAG_NAME
+          mkdir -p ./ghpages/releases/en/$TAG_NAME
+          mkdir -p ./ghpages/releases/ru/$TAG_NAME
+          cp -r ./en/* ./ghpages/releases/en/$TAG_NAME/
+          cp -r ./ru/* ./ghpages/releases/ru/$TAG_NAME/
           cp ./index.html ./ghpages/releases/$TAG_NAME/
 
       - name: Deploy to GitHub Pages
