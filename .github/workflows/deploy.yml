@@ -19,10 +19,12 @@ jobs:
           # Создаем директорию по версии
           mkdir -p ./ghpages/$TAG_NAME
           
-          # Копируем файлы сайта
-          cp -r ./en/* ./ghpages/$TAG_NAME/
-          cp -r ./ru/* ./ghpages/$TAG_NAME/
+          # Копируем главную страницу
           cp ./index.html ./ghpages/$TAG_NAME/
+          
+          # Копируем файлы из папок en и ru
+          cp -r ./en/* ./ghpages/$TAG_NAME/en/
+          cp -r ./ru/* ./ghpages/$TAG_NAME/ru/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
