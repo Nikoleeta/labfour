@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Multilingual Site
 
 on:
   release:
@@ -7,29 +7,27 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Prepare publish directory
-        run: |
-          TAG_NAME=$(echo "${{ github.event.release.tag_name }}" | tr '[:upper:]' '[:lower:]')
-          
-          # Создаем директорию по версии
-          mkdir -p ./ghpages/$TAG_NAME
-          
-          # Копируем главную страницу
-          cp ./index.html ./ghpages/$TAG_NAME/
-          
-          # Копируем файлы из папок en и ru
-          cp -r ./en/* ./ghpages/$TAG_NAME/en/
-          cp -r ./ru/* ./ghpages/$TAG_NAME/ru/
+    - name: Create versioned directory
+      run: |
+        VERSION=${{ github.ref_name }}
+        VERSION_DIR="./public/v${VERSION}"
+        mkdir -p "$VERSION_DIR"
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ghpages
-          publish_branch: ghpages  # Убедитесь, что указан правильный branch
-          keep_files: true
+        # Список файлов и каталогов для копирования
+        files_to_copy=("en" "ru" "index.html")
+
+        # Копирование в папку с версией
+        for file in "${files_to_copy[@]}"; do
+          cp -r "./${file}" "$VERSION_DIR/"
+        done
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
+        keep_files: true
