@@ -17,7 +17,6 @@ jobs:
         VERSION_DIR="./public/v${VERSION}"
         mkdir -p "$VERSION_DIR"
 
-        # Список файлов и каталогов для копирования
         files_to_copy=("en" "ru" "index.html")
 
         # Копирование в папку с версией
